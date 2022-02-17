@@ -10,6 +10,8 @@
   const bookList = document.querySelectorAll(".book-list");
   console.log(bookList);
 
+  const favoriteBooks = [];
+
   function renderInBooks() {
     for (let book of dataSource.books) {
       bookDetails = {
@@ -28,4 +30,5 @@
       bookList.appendChild(generetedDOM);
     }
   }
+  renderInBooks();
 }
