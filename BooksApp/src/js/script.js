@@ -6,8 +6,12 @@
       book: "#template-book",
     },
   };
-
-  const bookList = document.querySelectorAll(".book-list");
+  const template = {
+    book: Handlebars.compile(
+      document.querySelector(select.templateOf.books).innerHTML
+    ),
+  };
+  const bookList = document.querySelectorAll("book-list");
   console.log(bookList);
 
   const favoriteBooks = [];
@@ -23,7 +27,7 @@
       };
       console.log(bookDetails);
       // const generatedHTML = templates.menuProduct(thisProduct.data);
-      const generatedHTML = templates.book(bookDetails);
+      const generatedHTML = template.book(bookDetails);
       // /* create element using utils.createElementFromHTML */
       const generatedDOM = utils.createDOMFromHTML(generatedHTML);
       // /* add element to menu */
@@ -31,22 +35,27 @@
     }
   }
   function initAction() {
-    const bookImages = bookList.querySelectorAll(".book-image");
+    const bookImages = bookList.querySelectorAll("book-image");
     console.log(bookImages);
+    const clickedElement = this;
+
     for (let bookImage of bookImages) {
       bookImage.addEventListener("dblClick", function (event) {
         event.preventDefault();
-
-        const dataId = bookImage.getAttribute("data-id");
-        if (favoriteBooks.includes(dataId)) {
-          bookImage.classList.toggle("favorite");
-        } else {
-          console.log(dataId);
-          favoriteBooks.push(dataId);
+        const clickedElement = event.target.offsetParent;
+        if (clickedElement.classList.contains("book__image")) {
+          const dataId = clickedElement.getAttribute("data-id");
+          if (favoriteBooks.includes(dataId)) {
+            clickedElement.classList.toggle("favorite");
+          } else {
+            console.log(dataId);
+            favoriteBooks.push(dataId);
+          }
         }
       });
     }
   }
+
   renderInBooks();
   initAction();
 }
