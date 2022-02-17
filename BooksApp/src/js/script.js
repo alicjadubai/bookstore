@@ -32,12 +32,18 @@
   }
   function initAction() {
     const bookImages = bookList.querySelectorAll(".book-image");
+    console.log(bookImages);
     for (let bookImage of bookImages) {
       bookImage.addEventListener("dblClick", function (event) {
         event.preventDefault();
-        bookImage.classList.add("favorite");
+
         const dataId = bookImage.getAttribute("data-id");
-        favoriteBooks.push(dataId);
+        if (favoriteBooks.includes(dataId)) {
+          bookImage.classList.toggle("favorite");
+        } else {
+          console.log(dataId);
+          favoriteBooks.push(dataId);
+        }
       });
     }
   }
