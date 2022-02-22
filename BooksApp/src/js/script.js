@@ -5,6 +5,7 @@
     templateOf: {
       book: "#template-book",
     },
+    filters: ".filters",
   };
   const template = {
     book: Handlebars.compile(
@@ -53,8 +54,50 @@
         }
       }
     });
+    const filters = [];
+    const filtersForm = document.querySelector("filters");
+    console.log(filtersForm);
+    filtersForm.addEventListener("click", function (event) {
+      event.preventDefault();
+      const filtersClicked = event.target;
+      console.log("filter clicked", filtersClicked);
+      if (
+        (filtersClicked.tagName =
+          "INPUT" &&
+          filtersClicked.type == "checkbox" &&
+          filtersClicked == "filter")
+      ) {
+        if (filtersClicked.tagName == true) {
+          filters.push(filtersClicked.value);
+        } else {
+          filters.splice(filters.indexOf(element.value), 1);
+        }
+        console.log(filtersClicked.value);
+      }
+    });
+    filterBooks();
   }
-
+  function filterBooks() {
+    const filters = [];
+    for (let book of dataSource.books) {
+      let shouldBeHidden = false;
+      for (const filter of filters) {
+        if (!book.details == true) {
+          shouldBeHidden == true;
+          break;
+        }
+      }
+      const bookImage = booksList.querySelector(
+        '.book__image[data-id="' + book.id + '"]'
+      );
+      if (shouldBeHidden === true) {
+        bookImage.classList.add("hidden");
+      }
+      if (shouldBeHidden === false) {
+        bookImage.classList.remove("hidden");
+      }
+    }
+  }
   renderInBooks();
   initAction();
 }
